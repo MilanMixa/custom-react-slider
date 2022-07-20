@@ -1,0 +1,72 @@
+.swiper-container {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  touch-action: pan-y;
+  margin-bottom: 100px;
+}
+
+.swiper-list {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  transition: transform 0.3s ease-out;
+}
+
+.swiper-list.is-swiping {
+  transition: none;
+}
+
+.swiper-indicator {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 15px 0 0 0;
+  padding: 0;
+}
+
+.swiper-indicator-item {
+  width: 8px;
+  height: 8px;
+  margin-right: 7%;
+  margin-top: 20px;
+  border-radius: 50%;
+  background-color: #cccccc;
+  cursor: pointer;
+}
+
+.swiper-indicator-item.active {
+  background-color: #6772e5
+}
+
+.features{
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  margin-bottom: 5px;
+  margin-top: 0px;
+  color: #6772e5;
+  font-weight: bold;
+  word-wrap: break-word;
+}
+
+.mainTitle{
+  color: #111;
+  font-weight: bold;
+  font-size: 3.6rem;
+  line-height: 4.2rem;
+  margin-bottom: 5px;
+  margin-top: 0px;
+}
+
+.descriptionTitle{
+  font-size: 1.6rem;
+  line-height: 2.2rem;
+  margin-bottom: 5px;
+  margin-top: 0px;
+  color: #444;
+  font-weight: normal;
+  font-style: italic;
+  word-wrap: break-word;
+}
