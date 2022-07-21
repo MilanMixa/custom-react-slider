@@ -1,20 +1,21 @@
 import React, { useState, useRef } from "react";
 import { getRefValue, useStateRef } from "../../hooks/useStateRef";
 import { getTouchEventData } from "../../hooks/useTouchEventData";
-import { SliderItemType, TitleItemType } from "../../types";
+import { SliderItemType, TextItemType } from "../../types";
 
 import "./Slider.css";
 import SliderItem from "../SliderItem";
 
 export type Props = {
   slides: Array<SliderItemType>;
-  text: TitleItemType;
+  text: TextItemType;
+  imageWidth: number;
 };
 
 const MIN_SWIPE_REQUIRED = 40;
 // slider needs to accept position prop
-function Slider({ slides, text }: Props) {
-  const { tag, main, description } = text;
+function Slider({ slides, text, imageWidth }: Props) {
+  const { textHeading, textTitle, textSubtitle } = text;
 
   const containerRef = useRef<HTMLUListElement>(null);
   const containerWidthRef = useRef(0);
@@ -24,6 +25,10 @@ function Slider({ slides, text }: Props) {
   const [offsetX, setOffsetX, offsetXRef] = useStateRef(0);
   const [isSwiping, setIsSwiping] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
+
+  const desc = slides[currentIdx].description;
+  // need this for the slider number beside the picture
+  // console.log(currentIdx + 1);
 
   const onTouchMove = (e: TouchEvent | MouseEvent) => {
     const currentX = getTouchEventData(e).clientX;
@@ -102,16 +107,17 @@ function Slider({ slides, text }: Props) {
 
   return (
     // conditionally render classes for position
-    <div className="">
+    <div className="sliderFont sliderCenter">
       <div>
-        <p className="features">{tag}</p>
-        <p className="mainTitle">{main}</p>
-        <p className="descriptionTitle">{description}</p>
+        <p className="features">{textHeading}</p>
+        <p className="mainTitle">{textTitle}</p>
+        <p className="descriptionTitle">{textSubtitle}</p>
       </div>
       <div
         className="swiper-container"
         onTouchStart={onTouchStart}
         onMouseDown={onTouchStart}
+        style={{ width: `${imageWidth}px` }}
       >
         <ul
           ref={containerRef}
@@ -134,6 +140,11 @@ function Slider({ slides, text }: Props) {
           ))}
         </ul>
       </div>
+
+      <p className="text-box">{desc}</p>
+      <p className="counter">
+        0{currentIdx + 1}/0{slides.length}
+      </p>
     </div>
   );
 }

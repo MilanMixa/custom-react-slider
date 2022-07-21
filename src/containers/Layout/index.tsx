@@ -1,4 +1,5 @@
 import Slider from "../../components/Slider";
+import "./Layout.css";
 
 import {
   firstSliderData,
@@ -13,10 +14,10 @@ const Layout = () => {
   return (
     // slider needs position prop
 
-    <div>
-      <Slider slides={firstSliderData} text={firstTitle} />
-      <Slider slides={secondSliderData} text={secondTitle} />
-      <Slider slides={thirdSliderData} text={thirdTitle} />
+    <div className="mainContainer">
+      <Slider slides={firstSliderData} text={firstTitle} imageWidth={750} />
+      <Slider slides={secondSliderData} text={secondTitle} imageWidth={570} />
+      <Slider slides={thirdSliderData} text={thirdTitle} imageWidth={570} />
     </div>
   );
 };
