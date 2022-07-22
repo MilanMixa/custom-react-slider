@@ -1,5 +1,7 @@
+// TYPES:
 import { SliderItemType } from "../../types";
 
+// STYLES:
 import "./SliderItem.css";
 
 export type Props = SliderItemType;

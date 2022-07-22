@@ -1,4 +1,7 @@
+// COMPONENTS:
 import Slider from "../../components/Slider";
+
+// STYLES:
 import "./Layout.css";
 
 import {
