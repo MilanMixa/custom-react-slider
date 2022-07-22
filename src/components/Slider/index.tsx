@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { getRefValue, useStateRef } from "../../hooks/useStateRef";
 import { getTouchEventData } from "../../hooks/useTouchEventData";
 import { SliderItemType, TextItemType } from "../../types";
@@ -26,9 +26,17 @@ function Slider({ slides, text, imageWidth }: Props) {
   const [isSwiping, setIsSwiping] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
 
+  const textBoxRef = useRef<any>(0);
+  const [height, setHeight] = useState();
+
+  useEffect(() => {
+    setHeight(() => textBoxRef?.current.clientHeight);
+    setTimeout(() => {
+      textBoxRef?.current.classList.add("text-box-animate");
+    }, 5);
+  }, [currentIdx]);
+
   const desc = slides[currentIdx].description;
-  // need this for the slider number beside the picture
-  // console.log(currentIdx + 1);
 
   const onTouchMove = (e: TouchEvent | MouseEvent) => {
     const currentX = getTouchEventData(e).clientX;
@@ -47,6 +55,7 @@ function Slider({ slides, text, imageWidth }: Props) {
     }
 
     setOffsetX(newOffsetX);
+    // animateTextBox();
   };
   const onTouchEnd = () => {
     const currentOffsetX = getRefValue(currentOffsetXRef);
@@ -140,8 +149,13 @@ function Slider({ slides, text, imageWidth }: Props) {
           ))}
         </ul>
       </div>
-
-      <p className="text-box">{desc}</p>
+      <div>
+        <div className="text-div" style={{ height: `${height}px` }}>
+          <p className="text-box" ref={textBoxRef} key={`desc${currentIdx}`}>
+            {desc}
+          </p>
+        </div>
+      </div>
       <p className="counter">
         0{currentIdx + 1}/0{slides.length}
       </p>

@@ -77,14 +77,27 @@
   align-items: center;
 }
 
-.text-box {
-  color: white;
-  padding: 35px 25px;
+.text-div {
   background-color: #6772e5;
+  width: 230px;
   position: absolute;
   left: 100px;
-  top: 120px;
-  width: 230px;
+  top: 130px;
+  transition: 0.3s;
+  transition-delay: 100ms;
+}
+
+.text-box {
+  color: white;
+  margin: 0;
+  opacity: 0;
+  transition: 1s;
+  padding: 35px 25px;
+}
+
+.text-box-animate {
+  transition-delay: 600ms;
+  opacity: 1;
 }
 
 .sliderFont {
