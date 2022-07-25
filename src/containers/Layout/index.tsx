@@ -15,12 +15,25 @@ import {
 
 const Layout = () => {
   return (
-    // slider needs position prop
-
     <div className="mainContainer">
-      <Slider slides={firstSliderData} text={firstTitle} imageWidth={750} />
-      <Slider slides={secondSliderData} text={secondTitle} imageWidth={570} />
-      <Slider slides={thirdSliderData} text={thirdTitle} imageWidth={570} />
+      <Slider
+        slides={firstSliderData}
+        text={firstTitle}
+        imageWidth={750}
+        layout={"center"}
+      />
+      <Slider
+        slides={secondSliderData}
+        text={secondTitle}
+        imageWidth={570}
+        layout={"right"}
+      />
+      <Slider
+        slides={thirdSliderData}
+        text={thirdTitle}
+        imageWidth={570}
+        layout={"left"}
+      />
     </div>
   );
 };

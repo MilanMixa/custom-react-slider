@@ -14,10 +14,11 @@ export type Props = {
   slides: Array<SliderItemType>;
   text: TextItemType;
   imageWidth?: number;
+  layout: string;
 };
 
 // slider needs to accept position prop
-function Slider({ slides, text, imageWidth }: Props) {
+function Slider({ slides, text, imageWidth, layout }: Props) {
   const { textHeading, textTitle, textSubtitle } = text;
 
   const {
@@ -34,10 +35,13 @@ function Slider({ slides, text, imageWidth }: Props) {
 
   return (
     // conditionally render classes for position
-    <div className="sliderFont sliderCenter">
-      <div>
+    <div className={`sliderFont slider-${layout}`}>
+      <div
+        className={`title-${layout}`}
+        style={{ maxWidth: `${imageWidth}px` }}
+      >
         <p className="features">{textHeading}</p>
-        <p className="mainTitle">{textTitle}</p>
+        <p className={`main-title`}>{textTitle}</p>
         <p className="descriptionTitle">{textSubtitle}</p>
       </div>
       <div
@@ -68,13 +72,13 @@ function Slider({ slides, text, imageWidth }: Props) {
         </ul>
       </div>
       <div>
-        <div className="text-div" style={{ height: `${height}px` }}>
+        <div className={`text-div-${layout}`} style={{ height: `${height}px` }}>
           <p className="text-box" ref={textBoxRef} key={`desc${currentIdx}`}>
             {desc}
           </p>
         </div>
       </div>
-      <p className="counter">
+      <p className={`counter-${layout}`}>
         0{currentIdx + 1}/0{slides.length}
       </p>
     </div>

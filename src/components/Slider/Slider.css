@@ -5,7 +5,7 @@
   max-width: 100%;
   overflow: hidden;
   touch-action: pan-y;
-  margin-bottom: 100px;
+  /* margin-bottom: 100px; */
 }
 
 .swiper-list {
@@ -52,12 +52,29 @@
   word-wrap: break-word;
 }
 
-.mainTitle {
+.title-right {
+  text-align: left;
+  padding-right: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title-left {
+  text-align: left;
+  padding: 0px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.main-title {
   color: #111;
   font-weight: bold;
   font-size: 36px;
   margin-bottom: 5px;
   margin-top: 0px;
+  line-height: 42px;
 }
 
 .descriptionTitle {
@@ -70,25 +87,59 @@
   word-wrap: break-word;
 }
 
-.sliderCenter {
+.slider-center {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.text-div {
+.slider-right {
+  display: flex;
+  flex-direction: row;
+}
+
+.slider-left {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.text-div-center {
   background-color: #6772e5;
   width: 230px;
   position: absolute;
   left: 100px;
-  top: 130px;
+  top: 175px;
+  transition: 0.3s;
+  transition-delay: 100ms;
+}
+
+.text-div-right {
+  background-color: #6772e5;
+  width: 230px;
+  position: absolute;
+  top: 40px;
+  right: -50px;
+  transition: 0.3s;
+  transition-delay: 100ms;
+}
+
+.text-div-left {
+  background-color: #6772e5;
+  width: 230px;
+  position: absolute;
+  left: -50px;
+  top: 50px;
   transition: 0.3s;
   transition-delay: 100ms;
 }
 
 .text-box {
   color: white;
+  text-align: left;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: bold;
   margin: 0;
   opacity: 0;
   transition: 1s;
@@ -102,13 +153,37 @@
 
 .sliderFont {
   font-family: Poppins, serif;
+  margin-bottom: 100px;
+  position: relative;
 }
 
-.counter {
+.counter-center {
   position: relative;
-  bottom: 400px;
+  bottom: 280px;
   right: 400px;
   transform: rotate(-90deg);
   font-size: 20px;
   font-style: italic;
+}
+
+.counter-right {
+  position: relative;
+  left: 180px;
+  top: 15px;
+  transform: rotate(-90deg);
+  font-size: 20px;
+  font-style: italic;
+}
+
+.counter-left {
+  position: relative;
+  left: 210px;
+  top: 80px;
+  transform: rotate(-90deg);
+  font-size: 20px;
+  font-style: italic;
+}
+
+.single-container {
+  position: relative;
 }

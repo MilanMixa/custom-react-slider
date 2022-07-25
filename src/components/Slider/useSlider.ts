@@ -109,6 +109,8 @@ const useSlider = ({ slides }: any) => {
     setCurrentIdx(idx);
     setOffsetX(-(containerWidth * idx));
   };
+
+  setTimeout(() => {}, 500);
   return {
     containerRef,
     indicatorOnClick,
