@@ -4,8 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useStateRef, getRefValue } from "../../hooks/useStateRef";
 import { getTouchEventData } from "../../hooks/useTouchEventData";
 
-const useSlider = ({ slides }: any) => {
-  console.log(slides, " hook slides");
+const useSlider = ({ slides, autoPlay }: any) => {
   const MIN_SWIPE_REQUIRED = 40;
 
   const containerRef = useRef<HTMLUListElement>(null);
@@ -16,7 +15,7 @@ const useSlider = ({ slides }: any) => {
   const [offsetX, setOffsetX, offsetXRef] = useStateRef(0);
   const [isSwiping, setIsSwiping] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
-
+  console.log(currentIdx, "current idx");
   const textBoxRef = useRef<any>(0);
   const [height, setHeight] = useState();
 
@@ -27,13 +26,31 @@ const useSlider = ({ slides }: any) => {
   }, [currentIdx, slides]);
 
   useEffect(() => {
-    textBoxRef?.current.classList.add("text-box-animate");
     if (desc) {
       setTimeout(() => {
+        textBoxRef?.current.classList.add("text-box-animate");
         setHeight(() => textBoxRef?.current.clientHeight);
       }, 200);
     }
   }, [textBoxRef, desc]);
+
+  useEffect(() => {
+    let counter = 0;
+    let interval: NodeJS.Timer | undefined = undefined;
+    if (autoPlay && !isSwiping) {
+      interval = setInterval(() => {
+        counter = counter + 1;
+        if (counter > slides.length - 1) {
+          counter = 0;
+        }
+        console.log(counter, "counter");
+
+        indicatorOnClick(counter);
+        setCurrentIdx(counter);
+      }, 2000);
+    } else clearInterval(interval);
+    return () => clearInterval(interval);
+  }, [autoPlay, isSwiping, slides]);
 
   const onTouchMove = (e: TouchEvent | MouseEvent) => {
     const currentX = getTouchEventData(e).clientX;
@@ -110,7 +127,6 @@ const useSlider = ({ slides }: any) => {
     setOffsetX(-(containerWidth * idx));
   };
 
-  setTimeout(() => {}, 500);
   return {
     containerRef,
     indicatorOnClick,

@@ -27,6 +27,7 @@ const Layout = () => {
         text={secondTitle}
         imageWidth={570}
         layout={"right"}
+        autoPlay={true}
       />
       <Slider
         slides={thirdSliderData}

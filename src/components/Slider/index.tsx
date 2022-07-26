@@ -15,10 +15,11 @@ export type Props = {
   text: TextItemType;
   imageWidth?: number;
   layout: string;
+  autoPlay?: boolean;
 };
 
 // slider needs to accept position prop
-function Slider({ slides, text, imageWidth, layout }: Props) {
+function Slider({ slides, text, imageWidth, layout, autoPlay }: Props) {
   const { textHeading, textTitle, textSubtitle } = text;
 
   const {
@@ -31,10 +32,9 @@ function Slider({ slides, text, imageWidth, layout }: Props) {
     height,
     textBoxRef,
     desc,
-  } = useSlider({ slides });
+  } = useSlider({ slides, autoPlay });
 
   return (
-    // conditionally render classes for position
     <div className={`sliderFont slider-${layout}`}>
       <div
         className={`title-${layout}`}
