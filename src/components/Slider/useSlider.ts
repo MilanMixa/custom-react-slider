@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
 //HOOKS:
 import { useStateRef, getRefValue } from "../../hooks/useStateRef";
@@ -15,7 +15,7 @@ const useSlider = ({ slides, autoPlay }: any) => {
   const [offsetX, setOffsetX, offsetXRef] = useStateRef(0);
   const [isSwiping, setIsSwiping] = useState(false);
   const [currentIdx, setCurrentIdx] = useState(0);
-  console.log(currentIdx, "current idx");
+  // console.log(currentIdx, "current idx");
   const textBoxRef = useRef<any>(0);
   const [height, setHeight] = useState();
 
@@ -34,23 +34,46 @@ const useSlider = ({ slides, autoPlay }: any) => {
     }
   }, [textBoxRef, desc]);
 
-  useEffect(() => {
-    let counter = 0;
-    let interval: NodeJS.Timer | undefined = undefined;
-    if (autoPlay && !isSwiping) {
-      interval = setInterval(() => {
-        counter = counter + 1;
-        if (counter > slides.length - 1) {
-          counter = 0;
-        }
-        console.log(counter, "counter");
+  // useEffect(() => {
+  //   let interval: NodeJS.Timer | undefined = undefined;
+  //   if (autoPlay && !isSwiping) {
+  //     interval = setInterval(() => {
+  //       currentIdx = currentIdx + 1;
+  //       if (currentIdx > slides.length - 1) {
+  //         currentIdx = 0;
+  //       }
+  //       // console.log(currentIdx, "counter");
 
-        indicatorOnClick(counter);
-        setCurrentIdx(counter);
-      }, 2000);
-    } else clearInterval(interval);
-    return () => clearInterval(interval);
-  }, [autoPlay, isSwiping, slides]);
+  //       indicatorOnClick(currentIdx);
+  //     }, 2000);
+  //   } else clearInterval(interval);
+  //   return () => clearInterval(interval);
+  // }, [autoPlay, isSwiping, slides, currentIdx]);
+
+  const timeoutRef = useRef<any>(0);
+
+  function resetTimeout() {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+  }
+
+  useEffect(() => {
+    resetTimeout();
+    timeoutRef.current = setTimeout(
+      () => {
+        setCurrentIdx((prevIndex) =>
+          prevIndex === slides.length - 1 ? 0 : prevIndex + 1
+        );
+        // indicatorOnClick(currentIdx);
+      },
+    2500
+    );
+
+    return () => {
+      resetTimeout();
+    };
+  }, [currentIdx, slides]);
 
   const onTouchMove = (e: TouchEvent | MouseEvent) => {
     const currentX = getTouchEventData(e).clientX;
@@ -119,13 +142,24 @@ const useSlider = ({ slides, autoPlay }: any) => {
     window.addEventListener("mousemove", onTouchMove);
     window.addEventListener("mouseup", onTouchEnd);
   };
-  const indicatorOnClick = (idx: number) => {
-    const containerEl = getRefValue(containerRef);
-    const containerWidth = containerEl.offsetWidth;
+  // const indicatorOnClick = (idx: number) => {
+  //   const containerEl = getRefValue(containerRef);
+  //   const containerWidth = containerEl.offsetWidth;
 
-    setCurrentIdx(idx);
-    setOffsetX(-(containerWidth * idx));
-  };
+  //   setCurrentIdx(idx);
+  //   setOffsetX(-(containerWidth * idx));
+  // };
+
+  const indicatorOnClick = useCallback(
+    (idx: number) => {
+      const containerEl = getRefValue(containerRef);
+      const containerWidth = containerEl.offsetWidth;
+
+      setCurrentIdx(idx);
+      setOffsetX(-(containerWidth * idx));
+    },
+    [setOffsetX]
+  );
 
   return {
     containerRef,
