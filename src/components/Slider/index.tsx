@@ -18,14 +18,13 @@ export type Props = {
   autoPlay?: boolean;
 };
 
-// slider needs to accept position prop
 function Slider({ slides, text, imageWidth, layout, autoPlay }: Props) {
   const { textHeading, textTitle, textSubtitle } = text;
 
   const {
     containerRef,
     indicatorOnClick,
-    currentIdx,
+    countRef,
     isSwiping,
     offsetX,
     onTouchStart,
@@ -64,7 +63,7 @@ function Slider({ slides, text, imageWidth, layout, autoPlay }: Props) {
             <li
               key={idx}
               className={`swiper-indicator-item ${
-                currentIdx === idx ? "active" : ""
+                countRef.current === idx ? "active" : ""
               }`}
               onClick={() => indicatorOnClick(idx)}
             />
@@ -73,13 +72,17 @@ function Slider({ slides, text, imageWidth, layout, autoPlay }: Props) {
       </div>
       <div>
         <div className={`text-div-${layout}`} style={{ height: `${height}px` }}>
-          <p className="text-box" ref={textBoxRef} key={`desc${currentIdx}`}>
+          <p
+            className="text-box"
+            ref={textBoxRef}
+            key={`desc${countRef.current}`}
+          >
             {desc}
           </p>
         </div>
       </div>
       <p className={`counter-${layout}`}>
-        0{currentIdx + 1}/0{slides.length}
+        0{countRef.current + 1}/0{slides.length}
       </p>
     </div>
   );

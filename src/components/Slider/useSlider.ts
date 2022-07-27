@@ -12,18 +12,28 @@ const useSlider = ({ slides, autoPlay }: any) => {
   const minOffsetXRef = useRef(0);
   const currentOffsetXRef = useRef(0);
   const startXRef = useRef(0);
-  const [offsetX, setOffsetX, offsetXRef] = useStateRef(0);
-  const [isSwiping, setIsSwiping] = useState(false);
-  const [currentIdx, setCurrentIdx] = useState(0);
-  // console.log(currentIdx, "current idx");
+  const countRef = useRef<number>(0);
   const textBoxRef = useRef<any>(0);
+  const [isSwiping, setIsSwiping] = useState(false);
   const [height, setHeight] = useState();
-
   const [desc, setDesc] = useState("");
+  const [offsetX, setOffsetX, offsetXRef] = useStateRef(0);
 
+  const indicatorOnClick = useCallback(
+    (idx: number) => {
+      const containerEl = getRefValue(containerRef);
+      const containerWidth = containerEl.offsetWidth;
+
+      countRef.current = idx;
+      setOffsetX(-(containerWidth * idx));
+    },
+    [setOffsetX]
+  );
+
+  const count = countRef.current;
   useEffect(() => {
-    setDesc(slides[currentIdx].description);
-  }, [currentIdx, slides]);
+    setDesc(slides[countRef.current].description);
+  }, [count, slides]);
 
   useEffect(() => {
     if (desc) {
@@ -34,46 +44,19 @@ const useSlider = ({ slides, autoPlay }: any) => {
     }
   }, [textBoxRef, desc]);
 
-  // useEffect(() => {
-  //   let interval: NodeJS.Timer | undefined = undefined;
-  //   if (autoPlay && !isSwiping) {
-  //     interval = setInterval(() => {
-  //       currentIdx = currentIdx + 1;
-  //       if (currentIdx > slides.length - 1) {
-  //         currentIdx = 0;
-  //       }
-  //       // console.log(currentIdx, "counter");
-
-  //       indicatorOnClick(currentIdx);
-  //     }, 2000);
-  //   } else clearInterval(interval);
-  //   return () => clearInterval(interval);
-  // }, [autoPlay, isSwiping, slides, currentIdx]);
-
-  const timeoutRef = useRef<any>(0);
-
-  function resetTimeout() {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-  }
-
   useEffect(() => {
-    resetTimeout();
-    timeoutRef.current = setTimeout(
-      () => {
-        setCurrentIdx((prevIndex) =>
-          prevIndex === slides.length - 1 ? 0 : prevIndex + 1
-        );
-        // indicatorOnClick(currentIdx);
-      },
-    2500
-    );
-
-    return () => {
-      resetTimeout();
-    };
-  }, [currentIdx, slides]);
+    let interval: NodeJS.Timer | undefined = undefined;
+    if (autoPlay && !isSwiping) {
+      interval = setInterval(() => {
+        countRef.current = countRef.current + 1;
+        if (countRef.current > slides.length - 1) {
+          countRef.current = 0;
+        }
+        indicatorOnClick(countRef.current);
+      }, 3000);
+    } else clearInterval(interval);
+    return () => clearInterval(interval);
+  }, [autoPlay, isSwiping, slides, indicatorOnClick]);
 
   const onTouchMove = (e: TouchEvent | MouseEvent) => {
     const currentX = getTouchEventData(e).clientX;
@@ -116,7 +99,7 @@ const useSlider = ({ slides, autoPlay }: any) => {
 
     setIsSwiping(false);
     setOffsetX(newOffsetX);
-    setCurrentIdx(Math.abs(newOffsetX / containerWidth));
+    countRef.current = Math.abs(newOffsetX / containerWidth);
 
     window.removeEventListener("touchend", onTouchEnd);
     window.removeEventListener("touchmove", onTouchMove);
@@ -142,29 +125,11 @@ const useSlider = ({ slides, autoPlay }: any) => {
     window.addEventListener("mousemove", onTouchMove);
     window.addEventListener("mouseup", onTouchEnd);
   };
-  // const indicatorOnClick = (idx: number) => {
-  //   const containerEl = getRefValue(containerRef);
-  //   const containerWidth = containerEl.offsetWidth;
-
-  //   setCurrentIdx(idx);
-  //   setOffsetX(-(containerWidth * idx));
-  // };
-
-  const indicatorOnClick = useCallback(
-    (idx: number) => {
-      const containerEl = getRefValue(containerRef);
-      const containerWidth = containerEl.offsetWidth;
-
-      setCurrentIdx(idx);
-      setOffsetX(-(containerWidth * idx));
-    },
-    [setOffsetX]
-  );
 
   return {
     containerRef,
     indicatorOnClick,
-    currentIdx,
+    countRef,
     isSwiping,
     offsetX,
     onTouchStart,
