@@ -5,7 +5,10 @@
   max-width: 100%;
   overflow: hidden;
   touch-action: pan-y;
-  /* margin-bottom: 100px; */
+}
+
+.swiper-wrapper {
+  position: relative;
 }
 
 .swiper-list {
@@ -107,8 +110,8 @@
   background-color: #6772e5;
   width: 230px;
   position: absolute;
-  left: 100px;
-  top: 175px;
+  left: -120px;
+  top: 20px;
   transition: 0.3s;
   transition-delay: 100ms;
 }
@@ -157,27 +160,30 @@
 }
 
 .counter-center {
-  position: relative;
-  bottom: 280px;
-  right: 400px;
+  display: inline-flex;
+  position: absolute;
+  top: 42%;
+  left: -50px;
   transform: rotate(-90deg);
   font-size: 20px;
   font-style: italic;
 }
 
 .counter-right {
-  position: relative;
-  left: 180px;
-  top: 15px;
+  display: inline-flex;
+  position: absolute;
+  right: -47px;
+  top: 55%;
   transform: rotate(-90deg);
   font-size: 20px;
   font-style: italic;
 }
 
 .counter-left {
-  position: relative;
-  left: 210px;
-  top: 80px;
+  display: inline-flex;
+  position: absolute;
+  left: -50px;
+  top: 65%;
   transform: rotate(-90deg);
   font-size: 20px;
   font-style: italic;
@@ -185,4 +191,15 @@
 
 .single-container {
   position: relative;
+}
+
+.span-center {
+  width: 1px;
+  background: #000;
+  text-align: center;
+  opacity: 0.3;
+  width: 1px;
+  height: 20px;
+  display: block;
+  margin: 15px auto;
 }

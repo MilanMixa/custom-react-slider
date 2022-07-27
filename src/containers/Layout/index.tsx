@@ -27,7 +27,7 @@ const Layout = () => {
         text={secondTitle}
         imageWidth={570}
         layout={"right"}
-        autoPlay={true}
+        autoPlay={{ isOn: true, delay: 3000 }}
       />
       <Slider
         slides={thirdSliderData}

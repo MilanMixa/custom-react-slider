@@ -4,7 +4,15 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useStateRef, getRefValue } from "../../hooks/useStateRef";
 import { getTouchEventData } from "../../hooks/useTouchEventData";
 
-const useSlider = ({ slides, autoPlay }: any) => {
+//TYPES:
+import { SliderItemType } from "../../types";
+
+export type useSliderProps = {
+  slides: Array<SliderItemType>;
+  autoPlay?: { isOn: boolean; delay: number };
+};
+
+const useSlider = ({ slides, autoPlay }: useSliderProps) => {
   const MIN_SWIPE_REQUIRED = 40;
 
   const containerRef = useRef<HTMLUListElement>(null);
@@ -13,9 +21,9 @@ const useSlider = ({ slides, autoPlay }: any) => {
   const currentOffsetXRef = useRef(0);
   const startXRef = useRef(0);
   const countRef = useRef<number>(0);
-  const textBoxRef = useRef<any>(0);
+  const textBoxRef = useRef<HTMLParagraphElement>(null);
   const [isSwiping, setIsSwiping] = useState(false);
-  const [height, setHeight] = useState();
+  const [height, setHeight] = useState<number | undefined>(0);
   const [desc, setDesc] = useState("");
   const [offsetX, setOffsetX, offsetXRef] = useStateRef(0);
 
@@ -38,24 +46,24 @@ const useSlider = ({ slides, autoPlay }: any) => {
   useEffect(() => {
     if (desc) {
       setTimeout(() => {
-        textBoxRef?.current.classList.add("text-box-animate");
-        setHeight(() => textBoxRef?.current.clientHeight);
+        textBoxRef?.current?.classList.add("text-box-animate");
+        setHeight(() => textBoxRef?.current?.clientHeight);
       }, 200);
     }
   }, [textBoxRef, desc]);
 
   useEffect(() => {
-    if (autoPlay && !isSwiping) {
+    if (autoPlay?.isOn && !isSwiping) {
       const interval = setInterval(() => {
         countRef.current = countRef.current + 1;
         if (countRef.current > slides.length - 1) {
           countRef.current = 0;
         }
         indicatorOnClick(countRef.current);
-      }, 3000);
+      }, autoPlay?.delay);
       return () => clearInterval(interval);
     }
-  }, [autoPlay, isSwiping, slides, indicatorOnClick]);
+  }, [autoPlay?.isOn, autoPlay?.delay, isSwiping, slides, indicatorOnClick]);
 
   const onTouchMove = (e: TouchEvent | MouseEvent) => {
     const currentX = getTouchEventData(e).clientX;

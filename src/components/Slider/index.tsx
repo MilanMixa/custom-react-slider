@@ -15,7 +15,7 @@ export type Props = {
   text: TextItemType;
   imageWidth?: number;
   layout: string;
-  autoPlay?: boolean;
+  autoPlay?: { isOn: boolean; delay: number };
 };
 
 function Slider({ slides, text, imageWidth, layout, autoPlay }: Props) {
@@ -39,38 +39,40 @@ function Slider({ slides, text, imageWidth, layout, autoPlay }: Props) {
         className={`title-${layout}`}
         style={{ maxWidth: `${imageWidth}px` }}
       >
+        <span className={`span-${layout}`}></span>
         <p className="features">{textHeading}</p>
-        <p className={`main-title`}>{textTitle}</p>
+        <p className="main-title">{textTitle}</p>
         <p className="descriptionTitle">{textSubtitle}</p>
+        <span className={`span-${layout}`}></span>
       </div>
-      <div
-        className="swiper-container"
-        onTouchStart={onTouchStart}
-        onMouseDown={onTouchStart}
-        style={{ width: `${imageWidth}px` }}
-      >
-        <ul
-          ref={containerRef}
-          className={`swiper-list ${isSwiping ? "is-swiping" : ""}`}
-          style={{ transform: `translate3d(${offsetX}px, 0, 0)` }}
+      <div className="swiper-wrapper">
+        <div
+          className="swiper-container"
+          onTouchStart={onTouchStart}
+          onMouseDown={onTouchStart}
+          style={{ maxWidth: `${imageWidth}px` }}
         >
-          {slides.map((item, idx) => (
-            <SliderItem key={idx} {...item} />
-          ))}
-        </ul>
-        <ul className="swiper-indicator">
-          {slides.map((_item, idx) => (
-            <li
-              key={idx}
-              className={`swiper-indicator-item ${
-                countRef.current === idx ? "active" : ""
-              }`}
-              onClick={() => indicatorOnClick(idx)}
-            />
-          ))}
-        </ul>
-      </div>
-      <div>
+          <ul
+            ref={containerRef}
+            className={`swiper-list ${isSwiping ? "is-swiping" : ""}`}
+            style={{ transform: `translate3d(${offsetX}px, 0, 0)` }}
+          >
+            {slides.map((item, idx) => (
+              <SliderItem key={idx} {...item} />
+            ))}
+          </ul>
+          <ul className="swiper-indicator">
+            {slides.map((_item, idx) => (
+              <li
+                key={idx}
+                className={`swiper-indicator-item ${
+                  countRef.current === idx ? "active" : ""
+                }`}
+                onClick={() => indicatorOnClick(idx)}
+              />
+            ))}
+          </ul>
+        </div>
         <div className={`text-div-${layout}`} style={{ height: `${height}px` }}>
           <p
             className="text-box"
@@ -80,10 +82,10 @@ function Slider({ slides, text, imageWidth, layout, autoPlay }: Props) {
             {desc}
           </p>
         </div>
+        <span className={`counter-${layout}`}>
+          0{countRef.current + 1}/0{slides.length}
+        </span>
       </div>
-      <p className={`counter-${layout}`}>
-        0{countRef.current + 1}/0{slides.length}
-      </p>
     </div>
   );
 }
