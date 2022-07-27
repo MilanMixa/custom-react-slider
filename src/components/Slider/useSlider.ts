@@ -45,17 +45,16 @@ const useSlider = ({ slides, autoPlay }: any) => {
   }, [textBoxRef, desc]);
 
   useEffect(() => {
-    let interval: NodeJS.Timer | undefined = undefined;
     if (autoPlay && !isSwiping) {
-      interval = setInterval(() => {
+      const interval = setInterval(() => {
         countRef.current = countRef.current + 1;
         if (countRef.current > slides.length - 1) {
           countRef.current = 0;
         }
         indicatorOnClick(countRef.current);
       }, 3000);
-    } else clearInterval(interval);
-    return () => clearInterval(interval);
+      return () => clearInterval(interval);
+    }
   }, [autoPlay, isSwiping, slides, indicatorOnClick]);
 
   const onTouchMove = (e: TouchEvent | MouseEvent) => {
