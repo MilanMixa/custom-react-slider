@@ -14,7 +14,7 @@ import SliderTitle from "../SliderTitle";
 export type Props = {
   slides: Array<SliderItemType>;
   text: TextItemType;
-  imageWidth?: number;
+  imageWidth: number;
   layout: string;
   autoPlay?: { isOn: boolean; delay: number };
 };
@@ -30,7 +30,7 @@ function Slider({ slides, text, imageWidth, layout, autoPlay }: Props) {
     height,
     textBoxRef,
     desc,
-  } = useSlider({ slides, autoPlay });
+  } = useSlider({ slides, autoPlay, imageWidth });
 
   return (
     <div className={`sliderFont slider-${layout}`}>
@@ -63,7 +63,10 @@ function Slider({ slides, text, imageWidth, layout, autoPlay }: Props) {
             ))}
           </ul>
         </div>
-        <div className={`text-div-${layout}`} style={{ height: `${height}px` }}>
+        <div
+          className={`text-div text-div-${layout}`}
+          style={{ height: `${height}px` }}
+        >
           <p
             className="text-box"
             ref={textBoxRef}
@@ -72,7 +75,7 @@ function Slider({ slides, text, imageWidth, layout, autoPlay }: Props) {
             {desc}
           </p>
         </div>
-        <span className={`counter-${layout}`}>
+        <span className={`counter counter-${layout}`}>
           0{countRef.current + 1}/0{slides.length}
         </span>
       </div>

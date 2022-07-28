@@ -62,34 +62,27 @@
   flex-direction: row-reverse;
 }
 
-.text-div-center {
+.text-div {
   background-color: #6772e5;
   width: 230px;
   position: absolute;
-  left: -120px;
-  top: 20px;
   transition: 0.3s;
   transition-delay: 100ms;
+}
+
+.text-div-center {
+  left: -120px;
+  top: 20px;
 }
 
 .text-div-right {
-  background-color: #6772e5;
-  width: 230px;
-  position: absolute;
   top: 40px;
   right: -50px;
-  transition: 0.3s;
-  transition-delay: 100ms;
 }
 
 .text-div-left {
-  background-color: #6772e5;
-  width: 230px;
-  position: absolute;
   left: -50px;
   top: 50px;
-  transition: 0.3s;
-  transition-delay: 100ms;
 }
 
 .text-box {
@@ -115,34 +108,27 @@
   position: relative;
 }
 
-.counter-center {
+.counter {
   display: inline-flex;
   position: absolute;
-  top: 42%;
-  left: -50px;
-  transform: rotate(-90deg);
   font-size: 20px;
   font-style: italic;
+  transform: rotate(-90deg);
+}
+
+.counter-center {
+  top: 42%;
+  left: -50px;
 }
 
 .counter-right {
-  display: inline-flex;
-  position: absolute;
   right: -47px;
   top: 55%;
-  transform: rotate(-90deg);
-  font-size: 20px;
-  font-style: italic;
 }
 
 .counter-left {
-  display: inline-flex;
-  position: absolute;
   left: -50px;
   top: 65%;
-  transform: rotate(-90deg);
-  font-size: 20px;
-  font-style: italic;
 }
 
 .single-container {

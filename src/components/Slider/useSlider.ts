@@ -10,10 +10,11 @@ import { SliderItemType } from "../../types";
 export type useSliderProps = {
   slides: Array<SliderItemType>;
   autoPlay?: { isOn: boolean; delay: number };
+  imageWidth: number;
 };
 
-const useSlider = ({ slides, autoPlay }: useSliderProps) => {
-  const MIN_SWIPE_REQUIRED = 40;
+const useSlider = ({ slides, autoPlay, imageWidth }: useSliderProps) => {
+  const MIN_SWIPE_REQUIRED = imageWidth * 0.4; //40
 
   const containerRef = useRef<HTMLUListElement>(null);
   const containerWidthRef = useRef(0);
@@ -70,8 +71,8 @@ const useSlider = ({ slides, autoPlay }: useSliderProps) => {
     const diff = getRefValue(startXRef) - currentX;
     let newOffsetX = getRefValue(currentOffsetXRef) - diff;
 
-    const maxOffsetX = 0;
-    const minOffsetX = getRefValue(minOffsetXRef);
+    const maxOffsetX = imageWidth * 0.4; // 0
+    const minOffsetX = getRefValue(minOffsetXRef) - imageWidth * 0.4;
 
     if (newOffsetX > maxOffsetX) {
       newOffsetX = maxOffsetX;
