@@ -9,6 +9,7 @@ import SliderItem from "../SliderItem";
 
 // HOOKS
 import useSlider from "./useSlider";
+import SliderTitle from "../SliderTitle";
 
 export type Props = {
   slides: Array<SliderItemType>;
@@ -19,8 +20,6 @@ export type Props = {
 };
 
 function Slider({ slides, text, imageWidth, layout, autoPlay }: Props) {
-  const { textHeading, textTitle, textSubtitle } = text;
-
   const {
     containerRef,
     indicatorOnClick,
@@ -35,16 +34,7 @@ function Slider({ slides, text, imageWidth, layout, autoPlay }: Props) {
 
   return (
     <div className={`sliderFont slider-${layout}`}>
-      <div
-        className={`title-${layout}`}
-        style={{ maxWidth: `${imageWidth}px` }}
-      >
-        <span className={`span-${layout}`}></span>
-        <p className="features">{textHeading}</p>
-        <p className="main-title">{textTitle}</p>
-        <p className="descriptionTitle">{textSubtitle}</p>
-        <span className={`span-${layout}`}></span>
-      </div>
+      <SliderTitle layout={layout} imageWidth={imageWidth} text={text} />
       <div className="swiper-wrapper">
         <div
           className="swiper-container"
